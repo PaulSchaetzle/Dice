@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.0
 
 Window {
   width: 640
@@ -12,24 +13,33 @@ Window {
     anchors.fill: parent
   }
 
-  Button {
-    id: rollButton
-    text: "roll the dice"
-    onClicked: {
-           dice.rollDice();
+  GridLayout {
+    columns: 1
+    Layout.fillWidth: true
+    anchors.centerIn: parent
+
+    Text {
+      Layout.alignment: Qt.AlignHCenter
+      id: faceText
+      font.pixelSize: 80
+      text: ""
     }
-  }
 
-  Text {
-    anchors.bottom: rollButton.bottom
-    id: faceText
-    text: "PlaceHolder"
-  }
+    Button {
+      id: rollButton
+      text: "roll the dice"
+      onClicked: {
+             dice.rollDice();
+      }
+    }
 
-  Connections {
-    target: dice
-    onFaceChanged: {
-      faceText.text = face
+    Connections {
+      target: dice
+
+      function onFaceChanged(face) {
+        faceText.text = face
+      }
     }
   }
 }
+
